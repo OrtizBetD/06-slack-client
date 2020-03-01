@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import Chat from "./Chat";
 import "./styles/App.css";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import Signup from "./Signup";
 import Login from "./Login";
+//import Messages from "./Messages";
+import Chat from "./Chat";
 
 class App extends Component {
   // Methods
