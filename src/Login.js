@@ -16,7 +16,11 @@ class Login extends React.Component {
         password: this.state.password
       })
       .then(response => {
-        if (response.data === "email not found") {
+        if (response.data === "All fields are required") {
+          this.setState({
+            error: "All fields are required"
+          });
+        } else if (response.data === "email not found") {
           this.setState({
             error: "Email not found"
           });

@@ -24,7 +24,11 @@ class Signup extends React.Component {
       })
       .then(response => {
         console.log(response.data);
-        if (response.data === "Email already exists") {
+        if (response.data === "All fields are required") {
+          this.setState({
+            error: "All fields are required"
+          });
+        } else if (response.data === "Email already exists") {
           this.setState({
             error: "Email already exists"
           });
