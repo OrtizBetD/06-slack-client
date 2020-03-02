@@ -38,6 +38,7 @@ class Sidebar extends Component {
       }
     });
     this.setState({ channels: channels });
+    this.props.getSelectedChannelId(id);
   };
   // Render
   render() {
