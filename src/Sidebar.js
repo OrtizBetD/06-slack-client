@@ -18,6 +18,7 @@ class Sidebar extends Component {
       })
       .then(res => {
         console.log(res.data);
+        res.data[0].active = true;
         this.setState({ channels: res.data });
       });
   }
@@ -26,7 +27,18 @@ class Sidebar extends Component {
     localStorage.removeItem("token");
     this.props.redirect();
   };
-  selectChannel = () => {};
+  selectChannel = id => {
+    let channels = this.state.channels;
+    console.log(channels);
+    channels.forEach((element, index) => {
+      if (element._id != id) {
+        channels[index].active = false;
+      } else {
+        channels[index].active = true;
+      }
+    });
+    this.setState({ channels: channels });
+  };
   // Render
   render() {
     return (
