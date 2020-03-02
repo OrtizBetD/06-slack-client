@@ -5,10 +5,15 @@ import Messages from "./Messages";
 
 class Chat extends Component {
   // Render
+  redirect = () => {
+    this.props.history.push("/login");
+  };
+
+  componentWillMount() {}
   render() {
     return (
       <div id="wrap">
-        <Sidebar />
+        <Sidebar redirect={this.redirect} />
         <Messages />
       </div>
     );
