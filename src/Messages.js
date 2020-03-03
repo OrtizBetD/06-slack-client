@@ -38,20 +38,17 @@ class Content extends Component {
   };
   createMessage = e => {
     e.preventDefault();
+    let data = new FormData();
+    console.log("file", this.state.newMessage.file);
+    data.append("file", this.state.newMessage.file);
+    data.append("text", this.state.newMessage.text);
+    data.append("channel", this.state.newMessage.channel);
     axios
-      .post(
-        `${process.env.REACT_APP_API}/messages`,
-        {
-          messages: this.state.message,
-          text: this.state.newMessage.text,
-          channel: this.state.newMessage.channel
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+      .post(`${process.env.REACT_APP_API}/messages`, data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
         }
-      )
+      })
       .then(response => {
         console.log(response.data);
         this.setState(oldState => ({
@@ -68,6 +65,13 @@ class Content extends Component {
     });
     this.setState({ messages });
   }
+
+  addFile = e => {
+    let newMessage = this.state.newMessage;
+    newMessage.file = e.target.files[0];
+    this.setState({ newMessage: newMessage });
+  };
+
   // Render
   render() {
     return (
@@ -79,7 +83,7 @@ class Content extends Component {
                 <span className="user">{message.user.name}</span>
                 <span className="date">{message.date}</span>
                 <div className="body">{message.text}</div>
-                -> Insert Image
+                <img src={message.file}></img>
               </div>
             );
           })}
