@@ -8,6 +8,7 @@ class Content extends Component {
   state = {
     newMessage: {
       text: "",
+      channel: "",
       file: null
     },
     messages: []
@@ -26,13 +27,38 @@ class Content extends Component {
       });
   }
   // Methods
-  changeText = e => {
+  changeText = (e, props) => {
     let newMessage = this.state.newMessage;
+    console.log("newMessage", newMessage);
     newMessage.text = e.target.value;
-    this.setState({ newMessage });
+    newMessage.channel = props.channelid;
+    console.log("newMessagechanged", newMessage);
+
+    this.setState({ newMessage: newMessage });
   };
   createMessage = e => {
     e.preventDefault();
+    axios
+      .post(
+        `${process.env.REACT_APP_API}/messages`,
+        {
+          messages: this.state.message,
+          text: this.state.newMessage.text,
+          channel: this.state.newMessage.channel
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .then(response => {
+        console.log(response.data);
+        this.setState(oldState => ({
+          messages: [...oldState.messages, response.data],
+          newMessage: { ...oldState.NewMessage, text: "" }
+        }));
+      });
   };
   componentWillReceiveProps(props) {
     console.log("channelid", props.channelid);
@@ -51,7 +77,7 @@ class Content extends Component {
             return (
               <div className="message" key={message._id}>
                 <span className="user">{message.user.name}</span>
-                <span className="date">Insert Date</span>
+                <span className="date">{message.date}</span>
                 <div className="body">{message.text}</div>
                 -> Insert Image
               </div>
@@ -69,7 +95,7 @@ class Content extends Component {
               type="text"
               placeholder="New Message..."
               value={this.state.newMessage.text}
-              onChange={e => this.changeText(e)}
+              onChange={e => this.changeText(e, this.props)}
             />
             <button type="submit" className="positive">
               Send

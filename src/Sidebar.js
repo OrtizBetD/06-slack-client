@@ -17,8 +17,10 @@ class Sidebar extends Component {
         }
       })
       .then(res => {
-        console.log(res.data);
+        //console.log(res.data[0]._id);
         res.data[0].active = true;
+        let id = res.data[0]._id;
+        //  this.props.getSelectedChannelId(res.data[0]._id);
         this.setState({ channels: res.data });
       });
   }
