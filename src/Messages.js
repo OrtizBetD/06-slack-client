@@ -39,7 +39,7 @@ class Content extends Component {
   createMessage = e => {
     e.preventDefault();
     let data = new FormData();
-    console.log("file", this.state.newMessage.file);
+    //console.log("file", this.state.newMessage.file);
     data.append("file", this.state.newMessage.file);
     data.append("text", this.state.newMessage.text);
     data.append("channel", this.state.newMessage.channel);
@@ -53,7 +53,7 @@ class Content extends Component {
         console.log(response.data);
         this.setState(oldState => ({
           messages: [...oldState.messages, response.data],
-          newMessage: { ...oldState.NewMessage, text: "" }
+          newMessage: { ...oldState.NewMessage, text: "", file: "" }
         }));
       });
   };
